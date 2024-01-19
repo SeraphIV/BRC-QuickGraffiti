@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
-    <AssemblyName>QuickGraffiti</AssemblyName>
+    <AssemblyName>QuickGraffitiAP</AssemblyName>
     <Description>Remove Graffiti Game</Description>
     <Version>0.1.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -20,10 +20,10 @@
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\BombRushCyberfunk\Bomb Rush Cyberfunk_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

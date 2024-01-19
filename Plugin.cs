@@ -1,20 +1,24 @@
 ﻿using BepInEx;
 using HarmonyLib;
 
-namespace QuickGraffiti
+namespace QuickGraffitiAP
 {
-    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInPlugin(MyGUID, PluginName, VersionString)]
     public class Plugin : BaseUnityPlugin
     {
         private static Harmony harmony;
 
-        public Plugin() => harmony = new Harmony(PluginInfo.PLUGIN_GUID + ".patch");
+        private const string MyGUID = "com.SeraphIV.QuickGraffitiAP";
+        private const string PluginName = "QuickGraffitiAP";
+        private const string VersionString = "0.0.1";
+
+        public Plugin() => harmony = new Harmony(MyGUID + ".patch");
         private void Awake()
         {
             harmony?.PatchAll();
 
             // Plugin startup logic
-            Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
+            Logger.LogInfo($"Plugin {MyGUID} is loaded!");
         }
 
         private void OnDestroy()

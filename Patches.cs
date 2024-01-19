@@ -6,10 +6,16 @@ using System;
 using static Reptile.GraffitiGame;
 using System.Collections.Generic;
 using UnityEngine.Experimental.Rendering;
+using System.Linq;
 
-namespace QuickGraffiti
+namespace QuickGraffitiAP
 {
     internal class Patches {
+
+        public static SaveSlotData CurrentSaveSlot
+        {
+            get { return Reptile.Core.Instance.SaveManager.CurrentSaveSlot; }
+        }
 
         [HarmonyPatch(typeof(GraffitiGame))]
         [HarmonyPatch("SetState")]
@@ -20,7 +26,7 @@ namespace QuickGraffiti
                 if (setState == GraffitiGameState.SHOW_PIECE)
                 {
                     Traverse.Create(__instance).Field("state").SetValue(setState);
-
+                 
                     GraffitiSpot gSpot = Traverse.Create(__instance).Field("gSpot").GetValue<GraffitiSpot>();
                     // Its gonna be a small graffiti, there is only one of them per character so nothing to randomize
                     if (gSpot.size == GraffitiSize.S)
@@ -29,7 +35,16 @@ namespace QuickGraffiti
                     GraffitiArtInfo graffitiArtInfo = Traverse.Create(__instance).Field("graffitiArtInfo").GetValue<GraffitiArtInfo>();
                     Player player = Traverse.Create(__instance).Field("player").GetValue<Player>();
 
-                    List<GraffitiArt> art = graffitiArtInfo.FindBySize(gSpot.size);
+                    //var whatever = CurrentSaveSlot.GetUnlockableDataByUid(a.unlockable.Uid).IsUnlocked;
+
+                    List<GraffitiArt> art = graffitiArtInfo.FindBySize(gSpot.size).Where(a =>
+                    {
+                        return CurrentSaveSlot.GetUnlockableDataByUid(a.unlockable.Uid).IsUnlocked;
+                    }).ToList();
+
+                    if (art.Count == 0) 
+                        return true;
+
                     GraffitiArt grafArt = art[UnityEngine.Random.Range(0, art.Count)];
                     Traverse.Create(__instance).Field("grafArt").SetValue(grafArt);
 
